@@ -283,3 +283,37 @@ class OrderList(UnorderedList):
                 raise IndexError
             
             return self.head.data
+        
+        #用ListedList实现Queue(FIFO)
+    class Queue:
+        def __init__(self):
+            self.head = None
+            self.tail = None#双指针成就前后时间复杂度均为O(1)
+
+        def is_empty(self):
+            return self.head is None and self.tail is None
+        
+        #头出
+        def dequeue(self): 
+            if self.is_empty():
+                raise IndexError
+            
+            item = self.head.data
+            self.head = self.head.next
+
+            if self.head is None:
+                self.tail = None#这里如果不删除尾部,self.tail依旧存在
+                #会和self.is_empty产生冲突
+            return item
+        #尾进 必须是自己维护tail,从头开始构建整个链表
+        def enqueue(self, item): 
+            new_code = Node(item)
+
+            if self.tail is None:
+                self.head = new_code
+                self.tail = new_code
+            else:
+                self.tail.next = new_code
+                self.tail = new_code
+
+   
