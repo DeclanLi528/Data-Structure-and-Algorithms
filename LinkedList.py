@@ -200,6 +200,49 @@ class OrderList(UnorderedList):
 
         self.count += 1
 
+    # def add(self, item): #❌❌❌❌❌❌❌
+    #     current = self.head
+    #     previous = None
+    #     new_code = Node(item)
+
+    #     if current is None:
+    #         self.head = new_code
+    #     else:
+    #         if previous is None: #如果直接判断previous是否为None一定是None❌❌❌
+    #             new_code.next = current
+    #             self.head = new_code
+    #         else:
+    #             while current is not None and item > current.data:
+    #                 previous = current
+    #                 current = current.next
+    #             new_code.next = current
+    #             previous.next = new_code
+    #             self.count += 1
+
+    def add(self, item):
+        current = self.head
+        previous = None
+        new_node = Node(item)
+
+        if current is None:
+            self.head = new_node
+        else:
+            while current is not None and item > current.data:
+                previous = current
+                current = current.next
+
+            if previous is None:
+                # 插入头部
+                new_node.next = self.head
+                self.head = new_node
+            else:
+                # 插入中间或末尾
+                new_node.next = current
+                previous.next = new_node
+
+        self.count += 1
+
+
     def search(self, item):
         current = self.head
 
