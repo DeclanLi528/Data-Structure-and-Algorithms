@@ -254,3 +254,32 @@ class OrderList(UnorderedList):
             current = current.next
         
         return False
+      
+    #使用LinkedList 实现Stack
+    #Stack的功能有push & pop
+
+    class Stack:
+        def __init__(self):
+            self.head = None
+
+        def is_empty(self):
+            return self.head is None
+        
+        def push(self, item):
+            new_code = Node(item)
+            new_code.next = self.head
+            self.head = new_code
+
+        def pop(self):
+            if self.is_empty():
+                raise IndexError
+            
+            item = self.head.data
+            self.head = self.head.next
+            return item
+        
+        def peek(self):
+            if self.is_empty():
+                raise IndexError
+            
+            return self.head.data
