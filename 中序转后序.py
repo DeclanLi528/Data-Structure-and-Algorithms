@@ -44,8 +44,11 @@ def postfix_eval(postfix_expr):
         else:
             operand2 = operand_stack.pop()
             operand1 = operand_stack.pop()
-            result = do_math(token, operand1, operand2)
-
+            try:
+                result = do_math(token, operand1, operand2)
+            except ZeroDivisionError:
+                print("You cannot use 0 as divisor")
+                return None
             operand_stack.push(result)
     return operand_stack.pop()
 
@@ -61,4 +64,4 @@ def do_math(op, op1, op2):
         return op1 - op2
 
 
-print(postfix_eval("1 2 + 3 4 + *"))
+print(postfix_eval("1 2 + 3 0 / +"))

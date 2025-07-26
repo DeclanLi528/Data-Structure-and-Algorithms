@@ -146,11 +146,68 @@ class UnorderedList:
 
         if current is None:
             print("Position out of bounds!")
-            return
+            return #完成插入了，不需要执行后面的代码了，提前结束就可以
 
         tem.next = current.next
         current.next = tem
-            
 
 
+    def slice(self, start, stop):
+        current = self.head
+        index = 0
+        new_list = UnorderedList()
+   
+        if self.head is None:
+            return 
+        
+        if start >= stop or start < 0:
+            return
+        
+        while current is not None:
+            if start <= index < stop:
+                new_list.append(current.data)
+            elif index >= stop:
+                break
+
+            index += 1
+            current = current.next
+        
+        return new_list
+
             
+# 有序列表继承无序列表，但需改动add/search
+class OrderList(UnorderedList):
+    def __init__(self):
+        super().__init__()#super().__init__()必须卸载类的方法中
+        self.head = None
+        self.count = 0
+
+    def add(self, item):
+        current = self.head
+        previous = None
+        new_code = Node(item)
+
+        while current is not None and current.data < item:
+            previous = current 
+            current = current.next
+
+        if previous is None:
+            new_code.set_next(self.head)
+            self.head = new_code
+        else:
+            new_code.set_next(current)
+            previous.set_next(new_code)
+
+        self.count += 1
+
+    def search(self, item):
+        current = self.head
+
+        while current is not None:
+            if current.data == item:
+                return True
+            elif current.data > item:
+                return False
+            current = current.next
+        
+        return False
