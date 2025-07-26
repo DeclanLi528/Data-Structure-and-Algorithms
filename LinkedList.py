@@ -316,4 +316,68 @@ class OrderList(UnorderedList):
                 self.tail.next = new_code
                 self.tail = new_code
 
-   
+# 一个帮助设置拿到链表时自动设置好tail指针的函数
+# def set_tail_from_head(self):
+#     current = self.head
+#     if current is None:
+#         self.tail = None
+#     else:
+#         while current.next is not None:
+#             current = current.next
+#         self.tail = current
+
+    class Deque:
+        def __init__(self):
+            self.head = None
+            self.tail = None
+
+        def is_empty(self):
+            return self.head is None and self.tail is None
+
+        def add_front(self, item):
+            new_code = Node(item)
+            if self.head is None:
+                self.head = new_code
+                self.tail = new_code
+            else:
+                new_code.next = self.head
+                self.head = new_code
+        
+        def add_rear(self, item):
+            new_code = Node(item)
+            if self.tail is None:
+                self.head = new_code
+                self.tail = new_code
+            else:
+                self.tail.next= new_code
+                self.tail = new_code
+        
+        def remove_front(self):
+            if self.is_empty():
+                raise IndexError
+            
+            item = self.head.data
+            self.head = self.head.next
+            if self.head is None:
+                self.tail = None
+            return item
+            
+        def remove_rear(self):
+            if self.is_empty():
+                raise IndexError
+            
+            if self.head == self.tail:
+                item = self.head.data
+                self.head = self.tail = None
+                return item
+            
+            current = self.head
+            while current.next != self.tail:
+                current = current.next
+            
+            item = self.tail.data
+            current.next = None
+            self.tail = current
+            return item
+
+
