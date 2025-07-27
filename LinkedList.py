@@ -5,6 +5,7 @@ class Node:
     def __init__(self, data=None):
         self.data = data
         self.next = None
+        self.prev = None
 
     def set_next(self, new_next):
         self.next = new_next
@@ -429,3 +430,38 @@ def test_append_linkedlist():
 
 t1 = timeit.Timer(test_append_linkedlist)
 print(t1.timeit(number=100))
+
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+    
+    def append(self,data):
+        new_code = Node(data)
+        if self.head is None:
+            self.head = self.tail = new_code
+        else:
+            self.tail.next = new_code
+            new_code.prev = self.tail
+            self.tail = new_code
+    
+    def prepend(self, data):
+        new_code = None(data)
+        if self.head is None:
+            self.head = self.tail = new_code
+        else:
+            new_code.next = self.head
+            self.head.prev = new_code
+            self.head = new_code
+
+    def remove_read(self):
+        if self.tail is None:
+            return None
+        
+        data = self.tail.data
+        if self.head == self.tail:
+            self.head = self.tail = None
+        else:
+            self.tail = self.tail.prev
+            self.tail.next = None
+        return data
