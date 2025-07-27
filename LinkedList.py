@@ -1,3 +1,6 @@
+import time
+import timeit
+
 class Node:
     def __init__(self, data=None):
         self.data = data
@@ -9,6 +12,7 @@ class Node:
 class UnorderedList:
     def __init__(self):
         self.head = None
+        self.tail = None
         self.count = 0
 
     def is_empty(self):
@@ -70,17 +74,19 @@ class UnorderedList:
 
         return "[" + " ->".join(items) + "] "
     
-
-    def append(self, data):
+    #利用双指针优化linkedlist-append
+    def append(self, item):
         current = self.head
-        tem = Node(data)
-        if current is None:
-            self.head = tem
+        new_code = Node(item)
+        
+        if self.head is None:
+            self.tail = new_code
+            self.head = new_code
+            self.count += 1
         else:
-            while current.next is not None:
-                current = current.next
-
-            current.next = tem
+            self.tail.next = new_code
+            self.tail = new_code
+            self.count += 1
     
     def index(self, item):
         current = self.head
@@ -112,7 +118,11 @@ class UnorderedList:
             return None
         
     def pop(self):#✔️✔️✔️✔️✔️✔️✔️
-        current = self.head
+        """Because, any element in this linkedlist must be 
+        created by Node(), so self.head is must be duplicating the 
+        mehod from the instance, that's why current can use
+        current.next"""
+        current = self.head 
         previous = None
 
         if current == None:
@@ -381,3 +391,41 @@ class OrderList(UnorderedList):
             return item
 
 
+# 简单的比对方式
+# def compared_append():
+#     N = 100000
+
+#     # Python list
+#     py_list = []
+#     t1 = time.time()
+#     for i in range(N):
+#         py_list.append(i)
+#     t2 = time.time()
+
+#     # LinkedList
+#     ll = UnorderedList()
+#     t3 = time.time()
+#     for i in range(N):
+#         ll.append(i)
+#     t4 = time.time()
+
+#     print("Python list append", t2 - t1)
+#     print("Linkedlist list append", t4 - t3)
+
+# compared_append()
+
+def test_append_pylist():
+    lst = []
+    for i in range(10000):
+        lst.append(i)
+
+t = timeit.Timer(test_append_pylist)
+print(t.timeit(number=100))
+
+def test_append_linkedlist():
+    ll = UnorderedList()
+    for i in range(10000):
+        ll.append(i)
+
+t1 = timeit.Timer(test_append_linkedlist)
+print(t1.timeit(number=100))
